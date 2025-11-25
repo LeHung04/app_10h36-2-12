@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Todolist</string>
+    <string-array name="filter_options">
+        <item>7 ngày</item>
+        <item>15 ngày</item>
+        <item>30 ngày</item>
+        <item>365 ngày</item>
+    </string-array>
+</resources>

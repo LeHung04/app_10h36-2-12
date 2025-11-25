@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_bottom_sheet"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chọn thể loại"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:gravity="center"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/chipWork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:drawablePadding="0dp"
+        android:padding="16dp"
+        android:text="Công việc"
+        android:textSize="16sp"
+        app:drawableStartCompat="@drawable/ic_category_badge" />
+
+    <TextView
+        android:id="@+id/chipPersonal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cá nhân"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground"/>
+
+    <TextView
+        android:id="@+id/chipStudy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Học tập"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground"/>
+
+    <TextView
+        android:id="@+id/chipHealth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sức khỏe"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground"/>
+
+    <TextView
+        android:id="@+id/chipOther"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Khác"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:background="?attr/selectableItemBackground"/>
+
+</LinearLayout>

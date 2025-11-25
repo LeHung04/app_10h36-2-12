@@ -1,0 +1,36 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+
+    <!-- Background circle -->
+    <path
+        android:fillColor="#FFA726"
+        android:pathData="M256,512c141.4,0 256,-114.6 256,-256S397.4,0 256,0 0,114.6 0,256s114.6,256 256,256z"/>
+
+    <!-- Body suit -->
+    <path
+        android:fillColor="#455A64"
+        android:pathData="M128,400v-20c0,-80 60,-120 128,-120 68,0 128,40 128,120v20H128z"/>
+
+    <!-- Shirt -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M256,240c-40,0 -80,10 -104,40 28,32 60,52 104,52 44,0 76,-20 104,-52 -24,-30 -64,-40 -104,-40z"/>
+
+    <!-- Tie -->
+    <path
+        android:fillColor="#0288D1"
+        android:pathData="M248,240h16l16,80 -24,40 -24,-40z"/>
+
+    <!-- Head -->
+    <path
+        android:fillColor="#FFCCBC"
+        android:pathData="M256,120c-44,0 -80,36 -80,80s36,80 80,80 80,-36 80,-80 -36,-80 -80,-80z"/>
+
+    <!-- Hair -->
+    <path
+        android:fillColor="#263238"
+        android:pathData="M256,120c-48,0 -84,30 -88,70 6,6 24,14 32,14 4,-40 24,-60 56,-60 32,0 52,20 56,60 8,0 26,-8 32,-14 -4,-40 -40,-70 -88,-70z"/>
+</vector>

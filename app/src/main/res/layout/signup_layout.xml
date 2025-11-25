@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:gravity="center"
+    android:background="#F8F9FA"
+    android:id="@+id/signup"
+    tools:context=".Ui.activity.Login.SignupActivity">
+
+    <!-- Tiêu đề ứng dụng -->
+    <TextView
+        android:id="@+id/tv_app_title_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To-Do List: Đăng Ký"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#343A40"
+        android:layout_marginBottom="48dp" />
+
+    <!-- Trường nhập Tên đăng nhập -->
+    <EditText
+        android:id="@+id/et_username_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tên đăng nhập"
+        android:inputType="text"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_edittext"
+        tools:ignore="Autofill" />
+
+    <!-- Trường nhập Mật khẩu -->
+    <EditText
+        android:id="@+id/et_password_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mật khẩu"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_edittext"
+        tools:ignore="Autofill" />
+
+    <!-- Trường nhập Xác nhận Mật khẩu -->
+    <EditText
+        android:id="@+id/et_confirm_password_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Xác nhận Mật khẩu"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/rounded_edittext"
+        tools:ignore="Autofill" />
+
+    <!-- Nút Đăng ký -->
+    <Button
+        android:id="@+id/btn_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng Ký Tài Khoản"
+        android:textSize="18sp"
+        android:padding="12dp"
+        android:backgroundTint="#28A745"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Liên kết chuyển sang màn hình Đăng nhập -->
+    <TextView
+        android:id="@+id/tv_link_to_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đã có tài khoản? Đăng nhập."
+        android:textColor="#007BFF"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp" />
+
+</LinearLayout>
