@@ -174,7 +174,17 @@ public class TaskRepository {
     }
 
     public LinkedHashMap<String, Integer> getCompletedTaskCountByDays(int days) {
-        List<TaskDao.CompletedTaskByDate> list = taskDao.getCompletedTaskCountByDays(getCachedUserId(), days);
+        int userId = getCachedUserId();
+        List<TaskDao.CompletedTaskByDate> list;
+
+        if (userId != -1) {
+            // Đã đăng nhập: Lấy thống kê của user
+            list = taskDao.getCompletedTaskCountByDays(userId, days);
+        } else {
+            // Chưa đăng nhập (Guest): Lấy thống kê của guest
+            list = taskDao.getCompletedTaskCountByDaysForGuest(days);
+        }
+
         LinkedHashMap<String, Integer> data = new LinkedHashMap<>();
         if (list != null) {
             for (TaskDao.CompletedTaskByDate item : list) {
@@ -183,8 +193,6 @@ public class TaskRepository {
         }
         return data;
     }
-
-    // --- HELPER METHODS ---
 
     public int getCategoryIdByName(String categoryName) {
         Category existing = categoryDao.getCategoryByName(categoryName);

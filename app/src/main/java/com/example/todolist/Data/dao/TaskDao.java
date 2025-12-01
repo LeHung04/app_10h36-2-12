@@ -79,6 +79,20 @@ public interface TaskDao {
             "ORDER BY date ASC")
     List<CompletedTaskByDate> getCompletedTaskCountByDays(int userId, int days);
 
+    @Transaction
+    @Query("SELECT * FROM tasks WHERE user_id IS NULL ORDER BY created_at DESC")
+    List<TaskWithCategory> getTasksForGuest();
+
+    // Thống kê biểu đồ cho khách
+    @Query("SELECT date(due_date / 1000, 'unixepoch', 'localtime') AS date, COUNT(*) AS total " +
+            "FROM tasks " +
+            "WHERE is_completed = 1 " +
+            "AND user_id IS NULL " + // Lọc task không có chủ sở hữu
+            "AND date(due_date / 1000, 'unixepoch', 'localtime') >= date('now', '-' || :days || ' days', 'localtime') " +
+            "GROUP BY date " +
+            "ORDER BY date ASC")
+    List<CompletedTaskByDate> getCompletedTaskCountByDaysForGuest(int days);
+
     // Helper class cho thống kê
     class CompletedTaskByDate {
         public String date;

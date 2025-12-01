@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -31,7 +32,6 @@ public class ThongKeActivity extends BaseActivity {
 
     private LineChart lineChart;
     private PieChart pieChart;
-    // Đã sửa tên biến để khớp với XML (tvIncomplete thay vì tvPending)
     private TextView tvCompleted, tvIncomplete, tvGreeting;
     private Button btnLoginRegister;
     private Spinner spFilterTime;
@@ -44,65 +44,87 @@ public class ThongKeActivity extends BaseActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.thongke);
 
-        // 1. Ánh xạ View (Mapping)
+        // 1. Ánh xạ View
         mappingViews();
 
         // 2. Setup Bottom Navigation
         setupBottomNav(R.id.navigation_profile);
 
-        // 3. Xử lý giao diện User (Login/Logout)
-        updateUserUI();
-
-        // 4. Căn chỉnh giao diện (Edge to edge)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0); // Để 0 ở bottom để BottomNav tự xử lý
-            return insets;
-        });
-
-        // 5. Khởi tạo ViewModel
+        // 3. Khởi tạo ViewModel
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
 
-        // --- LOGIC BIỂU ĐỒ ---
+        // 4. Quan sát dữ liệu từ ViewModel
+        observeViewModel();
 
-        // A. Biểu đồ tròn (PieChart) - Dùng LiveData getAllTasks để tự động cập nhật
-        taskViewModel.loadTasks(); // Gọi load dữ liệu
+        // 5. Setup Spinner bộ lọc thời gian
+        setupSpinnerListener();
+
+        // 6. Căn chỉnh giao diện (Edge to edge)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
+            return insets;
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Cập nhật UI User mỗi khi quay lại màn hình
+        updateUserUI();
+        // Tải lại dữ liệu (để đảm bảo đúng User hoặc Guest)
+        reloadData();
+    }
+
+    private void mappingViews() {
+        pieChart = findViewById(R.id.pieChart);
+        lineChart = findViewById(R.id.lineChart);
+        tvCompleted = findViewById(R.id.tvCompleted);
+        tvIncomplete = findViewById(R.id.tvIncomplete);
+        spFilterTime = findViewById(R.id.spFilterTime);
+        tvGreeting = findViewById(R.id.tvGreeting);
+        btnLoginRegister = findViewById(R.id.btnLoginRegister);
+        imgAvatar = findViewById(R.id.imgAvatar);
+    }
+
+    private void observeViewModel() {
+        // A. Quan sát danh sách Task để vẽ PieChart và cập nhật số liệu
         taskViewModel.getAllTasks().observe(this, this::updatePieChartStatistics);
 
-        // B. Biểu đồ đường (LineChart) - Quan sát dữ liệu thống kê
+        // B. Quan sát dữ liệu thống kê để vẽ LineChart
         taskViewModel.getCompletedTaskStats().observe(this, data -> {
             if (data != null && !data.isEmpty()) {
                 ChartUtils.setupLineChart(lineChart, new LinkedHashMap<>(data));
             } else {
                 lineChart.clear();
                 lineChart.setNoDataText("Chưa có dữ liệu thống kê");
+                // Cần invalidate để biểu đồ vẽ lại thông báo "No Data"
+                lineChart.invalidate();
             }
         });
-
-        // Load mặc định 7 ngày cho biểu đồ đường
-        taskViewModel.loadCompletedTaskStats(7);
-
-        // C. Sự kiện bộ lọc thời gian (Spinner)
-        setupSpinnerListener();
     }
 
-    private void mappingViews() {
-        pieChart = findViewById(R.id.pieChart);
-        lineChart = findViewById(R.id.lineChart);
+    // Hàm gọi ViewModel để tải lại dữ liệu mới nhất
+    private void reloadData() {
+        if (taskViewModel == null) return;
 
-        // Sửa lỗi: Dùng đúng ID trong XML
-        tvCompleted = findViewById(R.id.tvCompleted);
-        tvIncomplete = findViewById(R.id.tvIncomplete);
+        // 1. Load tất cả tasks (cho PieChart)
+        // Repository tự biết lấy của User hay Guest
+        taskViewModel.loadTasks();
 
-        spFilterTime = findViewById(R.id.spFilterTime);
-        tvGreeting = findViewById(R.id.tvGreeting);
-        btnLoginRegister = findViewById(R.id.btnLoginRegister);
-        imgAvatar = findViewById(R.id.imgAvatar);
-
-        // Đã bỏ các biến tvTotalTasks, tvPercentage, btnBack vì XML không có
+        // 2. Load thống kê (cho LineChart) theo giá trị Spinner hiện tại
+        int days = 7; // Mặc định
+        if (spFilterTime != null && spFilterTime.getSelectedItem() != null) {
+            String selected = spFilterTime.getSelectedItem().toString();
+            try {
+                days = Integer.parseInt(selected.replaceAll("\\D", ""));
+            } catch (Exception e) {
+                days = 7;
+            }
+        }
+        taskViewModel.loadCompletedTaskStats(days);
     }
 
-    // Hàm cập nhật số liệu và PieChart
     private void updatePieChartStatistics(List<TaskWithCategory> tasks) {
         if (tasks == null) return;
 
@@ -117,7 +139,7 @@ public class ThongKeActivity extends BaseActivity {
             }
         }
 
-        // Cập nhật Text
+        // Cập nhật Text số lượng
         tvCompleted.setText(String.valueOf(completed));
         tvIncomplete.setText(String.valueOf(incomplete));
 
@@ -129,14 +151,8 @@ public class ThongKeActivity extends BaseActivity {
         spFilterTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected = parent.getItemAtPosition(position).toString();
-                // Lấy số ngày từ chuỗi (ví dụ: "7 ngày" -> 7)
-                try {
-                    int days = Integer.parseInt(selected.replaceAll("\\D", ""));
-                    taskViewModel.loadCompletedTaskStats(days);
-                } catch (NumberFormatException e) {
-                    taskViewModel.loadCompletedTaskStats(7); // Mặc định
-                }
+                // Khi người dùng chọn lại thời gian -> Load lại biểu đồ đường
+                reloadData();
             }
 
             @Override
@@ -145,26 +161,40 @@ public class ThongKeActivity extends BaseActivity {
     }
 
     private void updateUserUI() {
+        // Lấy thông tin từ SharedPreferences
         String username = getSharedPreferences("USER_DATA", MODE_PRIVATE)
                 .getString("USERNAME", "");
+        int userId = getSharedPreferences("USER_DATA", MODE_PRIVATE)
+                .getInt("USER_ID", -1);
 
-        if (username != null && !username.isEmpty()) {
-            // Đã đăng nhập
+        // Kiểm tra logic đăng nhập: Phải có username và userId hợp lệ (!= -1)
+        if (userId != -1 && username != null && !username.isEmpty()) {
+            // --- TRƯỜNG HỢP: ĐÃ ĐĂNG NHẬP ---
             tvGreeting.setText("Xin chào, " + username);
             btnLoginRegister.setText("Đăng xuất");
+            // Đổi màu nút đăng xuất thành màu đỏ để cảnh báo
             btnLoginRegister.setTextColor(getColor(android.R.color.holo_red_dark));
 
             btnLoginRegister.setOnClickListener(v -> {
+                // Xử lý ĐĂNG XUẤT
                 getSharedPreferences("USER_DATA", MODE_PRIVATE).edit().clear().apply();
-                updateUserUI(); // Refresh lại UI
+
+                Toast.makeText(this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
+
+                // Cập nhật lại giao diện ngay lập tức
+                updateUserUI();
+                // Tải lại dữ liệu (Lúc này sẽ chuyển sang chế độ Guest)
+                reloadData();
             });
         } else {
-            // Chưa đăng nhập
-            tvGreeting.setText("Bạn đã giữ theo kế hoạch của mình...");
+            // --- TRƯỜNG HỢP: CHƯA ĐĂNG NHẬP (KHÁCH) ---
+            tvGreeting.setText("Bạn đang xem ở chế độ Khách");
             btnLoginRegister.setText("Đăng nhập / Đăng ký");
-            btnLoginRegister.setTextColor(getColor(R.color.primary)); // Hoặc màu xanh mặc định
+            // Đổi màu nút về màu mặc định (Primary color)
+            btnLoginRegister.setTextColor(getColor(R.color.primary));
 
             btnLoginRegister.setOnClickListener(v -> {
+                // Chuyển sang màn hình Hello/Login
                 startActivity(new Intent(this, HelloActivity.class));
             });
         }
