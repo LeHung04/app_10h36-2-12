@@ -12,4 +12,13 @@ public class TaskWithCategory {
             entityColumn = "category_id"
     )
     public Category category;
+
+    // Add a constructor that takes a Task and a Category
+    public TaskWithCategory(Task task, Category category) {
+        this.task = task;
+        this.category = category;
+    }
+
+    // Add a no-argument constructor for Room
+    public TaskWithCategory() {}
 }

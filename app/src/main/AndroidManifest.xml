@@ -36,6 +36,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".Ui.setting.SettingActivity" android:exported="false"/>
+        <activity android:name=".Ui.setting.AdvanceSettingActivity" android:exported="false"/>
+        <activity android:name=".Ui.setting.FaqActivity" android:exported="false"/>
+        <activity android:name=".Ui.setting.FeedbackActivity" android:exported="false"/>
+        <activity android:name=".Ui.setting.StarredTasksActivity" android:exported="false"/>
+
         <receiver
             android:name=".Ui.activity.Lich.AlarmReceiver"
             android:exported="false"/>
