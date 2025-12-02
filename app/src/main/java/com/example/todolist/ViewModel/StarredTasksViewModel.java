@@ -30,9 +30,8 @@ public class StarredTasksViewModel extends AndroidViewModel {
 
     private void loadStarredTasks() {
         executorService.execute(() -> {
-            // This is a placeholder. You need to implement getStarredTasks in your TaskDao and TaskRepository
-            // List<Task> tasks = repository.getStarredTasks(); 
-            // starredTasks.postValue(tasks);
+            List<Task> tasks = repository.getStarredTasks();
+            starredTasks.postValue(tasks);
         });
     }
 

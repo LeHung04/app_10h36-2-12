@@ -143,6 +143,14 @@ public class TaskRepository {
         return taskDao.getAllTasks(getCachedUserId());
     }
 
+    public List<Task> getStarredTasks() {
+        try {
+            return executorService.submit(() -> taskDao.getStarredTasks(getCachedUserId())).get();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public List<TaskWithCategory> getTasksByDateRange(long start, long end) {
         return taskDao.getTasksByDate(getCachedUserId(), start, end);
     }
