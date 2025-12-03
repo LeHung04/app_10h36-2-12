@@ -12,12 +12,24 @@
         android:background="?attr/colorPrimary"
         app:titleTextColor="@android:color/white" />
 
+    <!-- Tạm thời thay thế LinearLayout bằng Button để gỡ lỗi -->
+    <Button
+        android:id="@+id/theme_button_debug"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Chủ đề (Nút Gỡ Lỗi)" />
+
+    <!--
     <LinearLayout
         android:id="@+id/theme_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground">
 
         <ImageView
             android:layout_width="24dp"
@@ -30,13 +42,17 @@
             android:layout_marginStart="16dp"
             android:text="Chủ đề" />
     </LinearLayout>
+    -->
 
     <LinearLayout
         android:id="@+id/advance_setting_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground">
 
         <ImageView
             android:layout_width="24dp"
@@ -55,7 +71,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground">
 
         <ImageView
             android:layout_width="24dp"
@@ -64,7 +83,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android.layout_height="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="Câu hỏi thường gặp" />
     </LinearLayout>
@@ -74,7 +93,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground">
 
         <ImageView
             android:layout_width="24dp"
@@ -93,7 +115,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground">
 
         <ImageView
             android:layout_width="24dp"

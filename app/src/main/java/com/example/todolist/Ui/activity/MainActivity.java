@@ -28,6 +28,7 @@ import com.example.todolist.Ui.setting.AdvanceSettingActivity;
 import com.example.todolist.Ui.setting.FaqActivity;
 import com.example.todolist.Ui.setting.FeedbackActivity;
 import com.example.todolist.Ui.setting.StarredTasksActivity;
+import com.example.todolist.Ui.theme.ThemeActivity;
 import com.example.todolist.utils.NotificationHelper;
 import com.example.todolist.utils.RecurringTaskScheduler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -109,7 +110,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.nav_theme) {
-            // Handle theme click
+            startActivity(new Intent(this, ThemeActivity.class));
         } else if (itemId == R.id.nav_faq) {
             startActivity(new Intent(this, FaqActivity.class));
         } else if (itemId == R.id.nav_feedback) {
